@@ -11,9 +11,12 @@ const ACTIONS = {
 function reducer(state, action) {
   switch(action.type) {
     case ACTIONS.INCREMENT:
-      return { count: state.count + 1 };
+      return { count: state.count + action.step };
+    case ACTIONS.DECREMENT:
+      return { count: state.count - action.step };
     default:
-      return state;
+      throw new Error(`Unsupported action type: ${action.type}`);
+      // return state;
   }
 }
 
@@ -25,7 +28,7 @@ function Counter({initialCount = 0, step = 1}) {
   const [state, dispatch] = React.useReducer(reducer, { count: initialCount });
 
   function increment() {
-    dispatch({ type: ACTIONS.INCREMENT });
+    dispatch({ type: ACTIONS.INCREMENT, step });
   }
 
   // 💰 you can write the countReducer function so you don't have to make any
